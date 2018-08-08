@@ -10,7 +10,7 @@
 | Harbor   | 100.67.191.10 | 100.67.191.11 | N\A          |
 | HarborLB | 100.67.191.119| 100.67.191.118| N\A          |
 | HarborVIP| 100.67.191.201|               |              |
-| |||
+||||
 | MariaDB  | 100.67.191.121| 100.67.191.122|100.67.191.123|
 | MariaLB  | 100.67.191.129| 100.67.191.128| N\A          |
 | MariaVIP | 100.67.191.120|               |              |
@@ -76,6 +76,7 @@ Harbor 此架構主要由三大項目組成
 | Redis 1 | 100.67.191.111 |
 | Redis 2 | 100.67.191.112 |
 | Redis VIP | 100.67.191.110 |
+
 Keepalived virtual router id : 11
 
 **Redis 1為Master**  
@@ -97,7 +98,7 @@ sudo make install
 3. 設定Redis cluster  
 
 [On Master]  
-修改redis.conf  
+修改[redis.conf](https://github.com/mJace/HarborHA/blob/master/redis_src/redis_cnf/master/redis.conf)  
 ```
 daemonize  yes
 bind  0.0.0.0
@@ -106,7 +107,7 @@ logfile "/var/log/redis.log"
 ```
 
 [On Slave]  
-修改redis.conf，跟Master不一樣的是Slave多了一行```slaveof <masterIP> <port>```  
+修改[redis.conf](https://github.com/mJace/HarborHA/blob/master/redis_src/redis_cnf/slave/redis.conf)，跟Master不一樣的是Slave多了一行```slaveof <masterIP> <port>```  
 ```
 daemonize  yes
 bind  0.0.0.0
@@ -131,7 +132,7 @@ redis-cli info replication
 
 4. 設定Keepalived  
 #### [On Master]  
-edit /etc/keepalived/keepalived.conf  
+edit [/etc/keepalived/keepalived.conf](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/keepalived.conf)  
 ```
 global_defs {
 	router_id redis
@@ -173,7 +174,7 @@ vrrp_instance VI_REDIS {
 }
 ```
 **Edit script for redis HA**  
-edit /etc/keepalived/scripts/check_redis.sh for checking master reids  
+edit [/etc/keepalived/scripts/check_redis.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/scripts/check_redis.sh) for checking master reids  
 ```
 #!/bin/bash  
 CHECK=`/usr/local/bin/redis-cli PING`  
@@ -187,7 +188,7 @@ else
 fi  
 ```
 
-edit /etc/keepalived/scripts/redis_backup.sh for master back online and being slave of new master  
+edit [/etc/keepalived/scripts/redis_backup.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/scripts/redis_backup.sh) for master back online and being slave of new master  
 ```
 #!/bin/bash
 REDISCLI="/usr/local/bin/redis-cli"
@@ -200,7 +201,7 @@ echo "Run SLAVEOF cmd ..." >> $LOGFILE
 $REDISCLI SLAVEOF 192.168.99.12 6379 >> $LOGFILE  2>&1
 ```
 
-edit /etc/keepalived/scripts/redis_fault.sh  
+edit [/etc/keepalived/scripts/redis_fault.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/scripts/redis_fault.sh)  
 ```
 # !/bin/bash
 LOGFILE=/var/log/keepalived-redis-state.log 
@@ -208,7 +209,7 @@ echo "[fault]" >> $LOGFILE
 date >> $LOGFILE
 ```
 
-edit /etc/keepalived/scripts/redis_master.sh  
+edit [/etc/keepalived/scripts/redis_master.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/scripts/redis_master.sh)  
 ```
 #!/bin/bash
 REDISCLI="/usr/local/bin/redis-cli"
@@ -223,7 +224,7 @@ echo "Run SLAVEOF NO ONE cmd ..." >> $LOGFILE
 $REDISCLI SLAVEOF NO ONE >> $LOGFILE 2>&1
 ```
 
-edit /etc/keepalived/scripts/redis_stop.sh  
+edit [/etc/keepalived/scripts/redis_stop.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/master/scripts/redis_stop.sh)  
 ```
 # !/bin/bash
 LOGFILE=/var/log/keepalived-redis-state.log 
@@ -232,7 +233,7 @@ date >> $LOGFILE
 ```
 
 #### [On Slave]  
-edit **/etc/keepalived/keeplived.conf** for slave keepalived
+edit **[/etc/keepalived/keeplived.conf](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/keepalived.conf)** for slave keepalived  
 ```
 global_defs {
 	router_id redis
@@ -275,7 +276,7 @@ vrrp_instance VI_REDIS {
 ```
 
 **Edit script for redis HA**  
-/etc/keepalived/scripts/check_redis.sh for checking slave reids
+[/etc/keepalived/scripts/check_redis.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/scripts/check_redis.sh) for checking slave reids
 ```
 #!/bin/bash  
 CHECK=`/usr/local/bin/redis-cli PING`  
@@ -290,7 +291,7 @@ fi
 ```
 
 
-edit /etc/keepalived/scripts/redis_backup.sh for master back online and being slave of new master  
+edit [/etc/keepalived/scripts/redis_backup.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/scripts/redis_backup.sh) for master back online and being slave of new master  
 ```
 #!/bin/bash
 REDISCLI="/usr/local/bin/redis-cli"
@@ -303,7 +304,7 @@ echo "Run SLAVEOF cmd ..." >> $LOGFILE
 $REDISCLI SLAVEOF 192.168.99.11 6379 >> $LOGFILE  2>&1
 ```
 
-edit /etc/keepalived/scripts/redis_fault.sh  
+edit [/etc/keepalived/scripts/redis_fault.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/scripts/redis_fault.sh)  
 ```
 # !/bin/bash
 LOGFILE=/var/log/keepalived-redis-state.log 
@@ -311,7 +312,7 @@ echo "[fault]" >> $LOGFILE
 date >> $LOGFILE
 ```
 
-edit /etc/keepalived/scripts/redis_master.sh  
+edit [/etc/keepalived/scripts/redis_master.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/scripts/redis_master.sh)  
 ```
 #!/bin/bash
 REDISCLI="/usr/local/bin/redis-cli"
@@ -326,7 +327,7 @@ echo "Run SLAVEOF NO ONE cmd ..." >> $LOGFILE
 $REDISCLI SLAVEOF NO ONE >> $LOGFILE 2>&1
 ```
 
-edit /etc/keepalived/scripts/redis_stop.sh  
+edit [/etc/keepalived/scripts/redis_stop.sh](https://github.com/mJace/HarborHA/blob/master/redis_src/keepalived_cnf/slave/scripts/redis_stop.sh)  
 ```
 # !/bin/bash
 LOGFILE=/var/log/keepalived-redis-state.log 
@@ -419,6 +420,7 @@ ip a
 
 
 ### Maria DB Cluster  
+
 
 
 
