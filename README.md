@@ -10,14 +10,14 @@
 | Harbor   | 100.67.191.10 | 100.67.191.11 | N\A          |
 | HarborLB | 100.67.191.119| 100.67.191.118| N\A          |
 | HarborVIP| 100.67.191.201|               |              |
-| 
+| |||
 | MariaDB  | 100.67.191.121| 100.67.191.122|100.67.191.123|
 | MariaLB  | 100.67.191.129| 100.67.191.128| N\A          |
 | MariaVIP | 100.67.191.120|               |              |
-|
+||||
 | Redis    | 100.67.191.111| 100.67.191.112| N\A          |
 | RedisVIP | 100.67.191.110|               |              |
-|
+||||
 |NFS Server| 100.67.191.8  |               |              |
 
 Harbor 此架構主要由三大項目組成   
@@ -56,7 +56,8 @@ Harbor 此架構主要由三大項目組成
 | 3306   |    | Default MariaDB port |
 | 5432   |    | Default Postgress port |
 
-**Keepalived setting**
+**Keepalived setting**  
+
 |role|vid|
 |----|---|
 |Harbor| 75 |
