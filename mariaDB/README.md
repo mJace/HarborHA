@@ -39,7 +39,7 @@ mysql -u root -p < registry.sql
 
 #### 設定MariaDB  
 [On MariaDB 1]  
-Edit /etc/mysql/conf.d/galera.cnf  
+Edit [/etc/mysql/conf.d/galera.cnf](https://github.com/mJace/HarborHA/blob/master/mariaDB/MariaDB_1/galera.cnf)  
 ```
 [mysqld]
 binlog_format=ROW
@@ -63,7 +63,7 @@ wsrep_node_name="Node1"
 
 
 [On MariaDB 2]  
-Edit /etc/mysql/conf.d/galera.cnf  
+Edit [/etc/mysql/conf.d/galera.cnf](https://github.com/mJace/HarborHA/blob/master/mariaDB/MariaDB_2/galera.cnf)  
 ```
 [mysqld]
 binlog_format=ROW
@@ -87,7 +87,7 @@ wsrep_node_name="Node2"
 
 
 [On MariaDB 3]
-Edit /etc/mysql/conf.d/galera.cnf  
+Edit [/etc/mysql/conf.d/galera.cnf](https://github.com/mJace/HarborHA/blob/master/mariaDB/MariaDB_3/galera.cnf)  
 ```
 [mysqld]
 binlog_format=ROW
@@ -164,7 +164,7 @@ sudo apt-get install keepalived
 ```
 
 [On Maria LB 1,2]  
-Edit [/etc/keepalived/keepalived.conf](https://github.com/mJace/HarborHA/blob/master/mariaDB/keepalived.conf/keepalived.conf)  
+Edit [/etc/keepalived/keepalived.conf](https://github.com/mJace/HarborHA/blob/master/mariaDB/keepalived_cnf/keepalived.conf)  
 Maria LB 1,2兩台用的keepalived設定是相同的
 
 ```
