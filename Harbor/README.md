@@ -88,7 +88,8 @@ sudo apt-get install keepalived
   
   
 [On Harbor LB 1,2]  
-Edit /etc/keepalived/keepalived.conf  
+Edit [/etc/keepalived/keepalived.conf](https://github.com/mJace/HarborHA/blob/master/Harbor/keepalived_cnf/keepalived.conf)  
+
 ```
 global_defs {
   router_id haborlb
