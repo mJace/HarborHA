@@ -1,6 +1,7 @@
 # Harbor HA 安裝手冊
 
 ## Harbor HA 架構
+**!!! 此文件的IP以及環境配置皆以這張架構圖為準，若環境不同，請參考架構圖自行更換IP !!!**  
 ![](https://i.imgur.com/ZcNEr5A.png)
 
 
@@ -68,7 +69,7 @@ Harbor 此架構主要由三大項目組成
 ---
 
 
-# 環境建置  
+## 環境建置  
 ### Redis HA Cluster  
 [Link to redis cluster setup guide](https://github.com/mJace/HarborHA/blob/master/redis)  
 
@@ -78,7 +79,7 @@ Harbor 此架構主要由三大項目組成
 
 ### Maria DB Cluster  
 
-
+[Link to MariaDB cluster setup guide](https://github.com/mJace/HarborHA/tree/master/mariaDB)  
 
 
 
@@ -88,6 +89,10 @@ Harbor 此架構主要由三大項目組成
 
 ### NFS 架設  
 
+Harbor建議使用具有共享且同步功能的儲存空間例如 Swift, S3, azure, Ceph 或是NFS  
+在這個範例內我們直接在100.67.191.8上面架設了一個nfs server.  
+可參考  
+[Setup NFS Mounts On Ubuntu 16.04 LTS Servers For Client Computers To Access](https://websiteforstudents.com/setup-nfs-mounts-on-ubuntu-16-04-lts-servers-for-client-computers-to-access/)  
 
 
 
@@ -96,3 +101,24 @@ Harbor 此架構主要由三大項目組成
 
 
 ### Harbor Cluster  
+[Link to harbor cluster](https://github.com/mJace/HarborHA/tree/master/Harbor)  
+
+
+---
+
+## HA 注意事項  
+
+1. 確保防火牆不會阻擋我們使用到的port  
+2. Node fail 之後重開 有可能iptable prerouting會消失
+   建議設定成每次開機自動設定  
+3. Harbor Node上面NFS的mount也建議設定為開機自動Mount  
+4. Redis Node上面redis sever fail或是node reboot後都要同時啟動redis-server和keepalived  
+5. 不同service 的keepalived virtual router id必須不同，否則keepalived會失效。
+
+---
+
+
+## Reference  
+[Redis Keepalived HA](https://www.jianshu.com/p/711542e7d347)  
+[MariaDB cluster](https://www.techrepublic.com/article/how-to-set-up-a-mariadb-galera-cluster-on-ubuntu-16-04/)  
+[Harbor HA Guide](https://github.com/goharbor/harbor/blob/master/docs/high_availability_installation_guide.md)  
