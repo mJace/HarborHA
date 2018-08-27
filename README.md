@@ -71,7 +71,7 @@ Harbor 此架構主要由三大項目組成
 
 ## 環境建置  
 ### Redis HA Cluster  
-[Link to redis cluster setup guide](https://github.com/mJace/HarborHA/blob/master/redis)  
+[Link to redis cluster setup guide](https://github.com/momobin/HarborHA/blob/master/redis)  
 
 
 ---
@@ -79,7 +79,7 @@ Harbor 此架構主要由三大項目組成
 
 ### Maria DB Cluster  
 
-[Link to MariaDB cluster setup guide](https://github.com/mJace/HarborHA/tree/master/mariaDB)  
+[Link to MariaDB cluster setup guide](https://github.com/momobin/HarborHA/tree/master/mariaDB)  
 
 
 
@@ -101,7 +101,7 @@ Harbor建議使用具有共享且同步功能的儲存空間例如 Swift, S3, az
 
 
 ### Harbor Cluster  
-[Link to harbor cluster](https://github.com/mJace/HarborHA/tree/master/Harbor)  
+[Link to harbor cluster](https://github.com/momobin/HarborHA/tree/master/Harbor)  
 
 
 ---
