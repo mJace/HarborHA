@@ -5,7 +5,7 @@
 | Redis 2 | 100.67.191.112 |
 | Redis VIP | 100.67.191.110 |
 
-Keepalived virtual router id : 11
+Keepalived virtual router id : 11 <=修改一個不能相同的數字
 
 **Redis 1為Master**  
 **Redis 2為Slave**  
