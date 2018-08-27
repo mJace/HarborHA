@@ -2,15 +2,8 @@
 
 | Role | IP |
 | ------- | -------------- |
-| MariaDB 1 | 100.67.191.121 |
-| MariaDB 2 | 100.67.191.122 |
-| MariaDB 3 | 100.67.191.123 |
-| MariaDB LB1 | 100.67.191.129 |
-| MariaDB LB2 | 100.67.191.128 |
-| MariaVIP 1| 100.67.191.120 |
-
-Keepalived virtual router id : 21  
-
+| MariaDB  | 100.67.191.12 |
+  
 
 1. 安裝MariaDB  
 [On MariaDB]  
@@ -36,7 +29,7 @@ enabled = 1
 #systemctl status mariadb
 #mysql --version
 ```
-安裝完成後 執行secure MariaDB安裝 且允許root remote登入  
+安裝完成後 執行secure MariaDB安裝 且允許root remote登入並設定密碼  
 ```bash=
 sudo mysql_secure_installation
 ```
@@ -50,6 +43,28 @@ sudo mysql_secure_installation
 wget https://raw.githubusercontent.com/goharbor/harbor/release-1.5.0/make/photon/db/registry.sql
 mysql -u root -p < registry.sql
 ```
+#### 設定使用者權限、允許遠端登入
+
+```bash=
+#mysql -u root -p
+MariaDB [(none)]> SELECT User, Host FROM mysql.user;
++------+-----------+
+| User | Host      |
++------+-----------+
+| root | 127.0.0.1 |
+| root | ::1       |
+| root | localhost |
++------+-----------+
+3 rows in set (0.000 sec)
+
+MariaDB [(none)]> CREATE USER 'root'@'100.67.165.101' IDENTIFIED BY 'password';
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON *.* TO 'root'@'100.67.165.101' WITH GRANT OPTION;
+
+MariaDB [(none)]> FLUSH PRIVILEGES;
+
+```
 
 **Starting the Galera Cluster**  
 
@@ -59,5 +74,9 @@ mysql -u root -p < registry.sql
 mysql -u root -p
 > CREATE DATABASE tr_test;
 >show databases;
+```
 
+#### 遠端連線測試在Harbor
+```bash=
+# mysql -u root -p -h 100.67.165.105
 ```
