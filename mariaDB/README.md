@@ -5,7 +5,7 @@
 | MariaDB  | 100.67.191.12 |
   
 
-1. 安裝MariaDB  
+安裝MariaDB  
 [On MariaDB]  
 ```
 #vim /etc/yum.repos.d/mariadb.repo
