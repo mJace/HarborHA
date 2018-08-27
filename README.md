@@ -92,7 +92,7 @@ Harbor 此架構主要由三大項目組成
 Harbor建議使用具有共享且同步功能的儲存空間例如 Swift, S3, azure, Ceph 或是NFS  
 在這個範例內我們直接在100.67.191.8上面架設了一個nfs server.  
 可參考  
-[Setup NFS Mounts On Ubuntu 16.04 LTS Servers For Client Computers To Access](https://websiteforstudents.com/setup-nfs-mounts-on-ubuntu-16-04-lts-servers-for-client-computers-to-access/)  
+[Setup NFS Mounts On centos7.5 LTS Servers For Client Computers To Access](https://www.phpini.com/linux/rhel-centos-7-install-nfs-server/)  
 
 
 
