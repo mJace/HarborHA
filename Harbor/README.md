@@ -25,6 +25,7 @@ keepalived virtual router ID : 75
 1. 下載Harbor v1.5.0 offline package  
 [On Harbor 1,2]  
 ```bash=
+#vi /etc/hostname <= 編輯所有的Harbor 資訊
 cd ~
 wget https://storage.googleapis.com/harbor-releases/release-1.5.0/harbor-offline-installer-v1.5.0.tgz
 tar -zxvf harbor-offline-installer-v1.5.0.tgz
@@ -33,8 +34,11 @@ tar -zxvf harbor-offline-installer-v1.5.0.tgz
 2. 安裝並設置NFS  
 [On Harbor 1,2]  
 ```bash=
-sudo apt-get update
-sudo apt-get install nfs-common
+sudo yum -y install epel-release
+sudo yum -y install nfs-utils
+sudo yum -y install python-pip
+yum -y install docker docker-registry
+sudo pip install docker-compose
 
 # Harbor預設的registry放在 /data 目前還不能透過config直接修改
 # 所以我們直接把NFS mount到 /data 上面
@@ -47,6 +51,7 @@ sudo mount 100.67.191.8:/var/nfs/harbor /data
  
 sudo chown 10000:10000 /data
 # Harbor官方要求修改/data權限
+vim /etc/fstab
 ```
 架設完成後請分別於 Harbor 1,2測試讀寫檔案能否同步  
 
@@ -76,10 +81,21 @@ db_user = root
 #redis_url 改成redis的VIP
 redis_url = 100.67.191.110:6379
 
+sudo ./install.sh --ha
 ```
 
+4.修改iptables並儲存
+```
+iptables -t nat -A PREROUTING -p tcp -d 100.67.165.202/16 --dport 80 -j REDIRECT
+iptables -t nat -A PREROUTING -p tcp -d 100.67.165.202/16 --dport 443 -j REDIRECT
+iptables -t nat -A PREROUTING -p tcp -d 100.67.165.202/16 --dport 4443 -j REDIRECT
+iptables-save > /etc/iptables-rules
+vim a+x /etc/rc.d/rc.local
+chmod a+x /etc/rc.d/rc.local
 
-4. 設定Harbor LoadBalancer  
+```
+
+5. 設定Harbor LoadBalancer  
 [On Harbor LB 1,2]  
 安裝keepalived  
 ```bash=
@@ -224,15 +240,16 @@ sysctl -p
 systemctl restart keepalived
 ```
 
-5. 設定Harbor Node1,2 iptable  
+6. 設定Harbor Node1,2 iptable  
 [On Harbor 1,2]  
 ```bash=
 iptables -t nat -A PREROUTING -p tcp -d 100.67.191.201 --dport 80 -j REDIRECT
 iptables -t nat -A PREROUTING -p tcp -d 100.67.191.201 --dport 443 -j REDIRECT
 iptables -t nat -A PREROUTING -p tcp -d 100.67.191.201 --dport 4443 -j REDIRECT
+iptables-save > /etc/iptables-rules
 ```
 
-6. 安裝Harbor  
+7. 安裝Harbor  
 [On Harbor 1,2]  
 ```bash=
 cd ~/harbor

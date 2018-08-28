@@ -5,7 +5,7 @@
 | Redis 2 | 100.67.191.112 |
 | Redis VIP | 100.67.191.110 |
 
-Keepalived virtual router id : 11
+Keepalived virtual router id : 11 <=修改一個不能相同的數字
 
 **Redis 1為Master**  
 **Redis 2為Slave**  
@@ -14,12 +14,15 @@ Keepalived virtual router id : 11
 ```bash=
 wget http://download.redis.io/releases/redis-4.0.6.tar.gz
 tar -zxvf redis-4.0.6.tar.gz
-sudo sudo apt-get install keepalived
+sudo yum -y install keepalived
 ```
 
 2. Redis 1 and 2 編譯Redis  
 ```bash=
 cd redis-4.0.6
+yum -y update
+yum -y install gcc
+make MALLOC=libc
 sudo make install
 ```
 

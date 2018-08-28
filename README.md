@@ -12,9 +12,7 @@
 | HarborLB | 100.67.191.119| 100.67.191.118| N\A          |
 | HarborVIP| 100.67.191.201|               |              |
 ||||
-| MariaDB  | 100.67.191.121| 100.67.191.122|100.67.191.123|
-| MariaLB  | 100.67.191.129| 100.67.191.128| N\A          |
-| MariaVIP | 100.67.191.120|               |              |
+| MariaDB  | 100.67.191.121| 
 ||||
 | Redis    | 100.67.191.111| 100.67.191.112| N\A          |
 | RedisVIP | 100.67.191.110|               |              |
@@ -71,7 +69,7 @@ Harbor 此架構主要由三大項目組成
 
 ## 環境建置  
 ### Redis HA Cluster  
-[Link to redis cluster setup guide](https://github.com/mJace/HarborHA/blob/master/redis)  
+[Link to redis cluster setup guide](https://github.com/momobin/HarborHA/blob/master/redis)  
 
 
 ---
@@ -79,7 +77,7 @@ Harbor 此架構主要由三大項目組成
 
 ### Maria DB Cluster  
 
-[Link to MariaDB cluster setup guide](https://github.com/mJace/HarborHA/tree/master/mariaDB)  
+[Link to MariaDB cluster setup guide](https://github.com/momobin/HarborHA/tree/master/mariaDB)  
 
 
 
@@ -92,7 +90,7 @@ Harbor 此架構主要由三大項目組成
 Harbor建議使用具有共享且同步功能的儲存空間例如 Swift, S3, azure, Ceph 或是NFS  
 在這個範例內我們直接在100.67.191.8上面架設了一個nfs server.  
 可參考  
-[Setup NFS Mounts On Ubuntu 16.04 LTS Servers For Client Computers To Access](https://websiteforstudents.com/setup-nfs-mounts-on-ubuntu-16-04-lts-servers-for-client-computers-to-access/)  
+[Setup NFS Mounts On centos7.5 LTS Servers For Client Computers To Access](https://www.phpini.com/linux/rhel-centos-7-install-nfs-server/)  
 
 
 
@@ -101,7 +99,7 @@ Harbor建議使用具有共享且同步功能的儲存空間例如 Swift, S3, az
 
 
 ### Harbor Cluster  
-[Link to harbor cluster](https://github.com/mJace/HarborHA/tree/master/Harbor)  
+[Link to harbor cluster](https://github.com/momobin/HarborHA/tree/master/Harbor)  
 
 
 ---
